@@ -1,0 +1,54 @@
+body {
+  font-family: sans-serif;
+  background-color: #0d1117;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.boards-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px auto;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(10, 30px);
+  gap: 2px;
+  margin: 20px auto;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  background-color: #1f6feb;
+  border: 1px solid #30363d;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cell:hover {
+  background-color: #58a6ff;
+}
+
+.cell.ship {
+  background-color: #58a6ff;
+  /* brighter blue for player's ships */
+}
+
+.cell.hit {
+  background-color: crimson;
+}
+
+.cell.miss {
+  background-color: #0d419d;
+  cursor: not-allowed;
+}
+
+.cell.sunk {
+  background-color: #6b6b6b;
+}

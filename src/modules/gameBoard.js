@@ -20,6 +20,7 @@ export default function GameBoard() {
             board[xi][yi] = ship;
         });
         ships.push({ ship, positions });
+        console.log('ship placed', ship, positions, board);
         return true;
     }
 
@@ -30,11 +31,12 @@ export default function GameBoard() {
         if (target && typeof target === 'function') {
             target.hit();
             board[y][x] = 'hit';
+            console.log('target hit')
             return 'hit';
         }
         else {
-            target.hit();
             board[y][x] = 'miss';
+            console.log('target missed')
             return 'miss'
         }
     }

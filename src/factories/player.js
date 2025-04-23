@@ -1,8 +1,8 @@
-import GameBoard from "../modules/gameBoard";
 
 export default function Player(name = 'Player', isAI = 'false') {
 
     const movesMade = new Set();
+
 
     const makeMove = (x, y, gameboard) => {
         const key = `${x},${y}`;
@@ -18,18 +18,19 @@ export default function Player(name = 'Player', isAI = 'false') {
 
         let x, y;
         do {
-            x = Math.random() * 10;
-            y = Math.random() * 10;
+            x = Math.floor(Math.random() * (9 - 0 + 1)) + 0;
+            y = Math.floor(Math.random() * (9 - 0 + 1)) + 0;
 
         } while (movesMade.has(`${x},${y}`));
         movesMade.add(`${x},${y}`);
+        console.log("AI move", x, y)
         return gameboard.recieveAttacks(x, y);
 
     }
     return {
         name,
         isAI,
-        moveMove,
+        makeMove,
         randomMoves,
     }
 }

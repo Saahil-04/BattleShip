@@ -1,6 +1,7 @@
+import "./styles.css";
 import GameBoard from "./modules/gameBoard";
 import Player from "./factories/player";
-import { renderBoard } from "./ui/dom";
+import renderBoards from "./ui/renderBoards";
 
 const playerBoard = GameBoard();
 const aiBoard = GameBoard();
@@ -11,20 +12,25 @@ const ai = Player('AI', true);
 playerBoard.placeShip(0, 0, 5);
 aiBoard.placeShip(0, 0, 5);
 
-renderBoard(document.querySelector('#player-board'), playerBoard.board);
-renderBoard(document.querySelector('#ai-board'), aiBoard.board, true);
+// Render both boards
+renderBoards(playerBoard, aiBoard);
 
-document.querySelector('#ai-board').addEventListener('click', (e) => {
-    const x = e.target.dataset.x;
-    const y = e.target.dataset.y;
-    const result = player.makeMove(aiBoard, x, y);
+document.querySelector('#enemy-board').addEventListener('click', (e) => {
+    const x = parseInt(e.target.dataset.x, 10); // Ensure x is a number
+    const y = parseInt(e.target.dataset.y, 10); // Ensure y is a number
 
-    if (result === 'repeat');
+    if (isNaN(x) || isNaN(y)) return; // Ignore clicks outside the grid
 
-    renderBoard(document.querySelector('#enemy-board'), aiBoard.board, true);
+    const result = player.makeMove(x, y, aiBoard);
+    console.log("result", result);
+
+    if (result === 'repeat') return; // Prevent re-rendering on repeated moves
+
+    // Re-render the enemy board
+    renderBoards(playerBoard, aiBoard);
 
     setTimeout(() => {
-        ai.makeRandomMove(playerBoard);
-        renderBoard(document.querySelector('#player-board'), playerBoard.board);
+        ai.randomMoves(playerBoard);
+        renderBoards(playerBoard, aiBoard); // Re-render both boards after AI move
     }, 300);
 });
