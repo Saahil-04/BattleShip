@@ -25,7 +25,7 @@ body {
 .cell {
   width: 30px;
   height: 30px;
-  background-color: #1f6feb;
+  background-color: #0044aa;
   border: 1px solid #30363d;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -36,7 +36,7 @@ body {
 }
 
 .cell.ship {
-  background-color: #20ffec;
+  background-color: #af616e;
   /* brighter blue for player's ships */
 }
 
@@ -45,10 +45,16 @@ body {
 }
 
 .cell.miss {
-  background-color: #0d419d;
+  background-color: #00286d;
   cursor: not-allowed;
 }
 
 .cell.sunk {
   background-color: #6b6b6b;
+}
+
+#turn-indicator {
+  font-size: 24px;
+  margin:20px auto;
+  color:aquamarine;
 }

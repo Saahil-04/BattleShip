@@ -13,7 +13,7 @@ function extractBoardCells(gameboard, revealShips = false) {
                 y,
                 hit: cellValue === 'hit',
                 miss: cellValue === 'miss',
-                hasShip: typeof cellValue === 'object',
+                hasShip: cellValue !== null && typeof cellValue === 'object',
                 revealed: false,
                 sunk: false,
             };
