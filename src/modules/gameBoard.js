@@ -9,18 +9,20 @@ export default function GameBoard() {
         const ship = Ship(length);
         const positions = [];
         for (let i = 0; i < length; i++) {
-            const xi = isVertical ? x + i : x;
+            const xi = isVertical ? x : x + i;
             const yi = isVertical ? y + i : y;
-            if (xi >= size || yi >= size || board[xi][yi] !== null) {
-                return false
+        
+            if (xi >= size || yi >= size || board[yi][xi] !== null) {
+                return false;
             }
-            positions.push([xi, yi]);
+        
+            positions.push([yi, xi]);
         }
-        positions.forEach(([xi, yi]) => {
-            board[xi][yi] = ship;
+        positions.forEach(([yi, xi]) => {
+            board[yi][xi] = ship;
         });
         ships.push({ ship, positions });
-        console.log('ship placed', ship, positions, board);
+        console.log('ship placed', ships, board);
         return true;
     }
 
@@ -28,7 +30,7 @@ export default function GameBoard() {
         const target = board[y][x];
         if (target === 'miss' || target === 'hit') return 'repeat';
 
-        if (target && typeof target === 'function') {
+        if (target && typeof target === 'object') {
             target.hit();
             board[y][x] = 'hit';
             console.log('target hit')
@@ -42,11 +44,12 @@ export default function GameBoard() {
     }
 
     const allShipsSunk = () => {
-        ships.every(({ ship }) => ship.isSunk());
+        return ships.every(({ ship }) => ship.isSunk());
     }
 
     return {
         board,
+        ships,
         placeShip,
         recieveAttacks,
         allShipsSunk,
