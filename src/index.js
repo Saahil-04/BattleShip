@@ -12,6 +12,7 @@ const playerShipLengths = [5, 4, 3, 2, 2];
 let currentShipIndex = 0;
 let orientation = 'horizontal';
 let gameStarted = false;
+let isGameOver = false;
 
 
 const player = Player('Player', false);
@@ -65,7 +66,8 @@ function handleManualShipPlacement(e) {
             gameStarted = true;
             placeShipsRandomly(aiBoard);
             renderBoards(playerBoard, aiBoard);
-            console.log('All ships placed manually! Game ready.');
+            alert('All ships placed manually! Game ready.');
+            document.getElementById('toggle-orientation').style.display = 'none'
         }
     } else {
         console.log('Invalid placement, try again.');
@@ -94,15 +96,28 @@ document.querySelector('#enemy-board').addEventListener('click', (e) => {
 
     // Re-render the enemy board
     renderBoards(playerBoard, aiBoard);
+    if (aiBoard.allShipsSunk()) {
+        isGameOver = true;
+        renderBoards(playerBoard, aiBoard); // just to re-render final state
+        alert("🎉 You win!");
+        return;
+    }
 
     currentTurn = 'ai';
     updateUI(currentTurn);
 
     setTimeout(() => {
+        if (isGameOver) return;
+
         ai.randomMoves(playerBoard);
         renderBoards(playerBoard, aiBoard); // Re-render both boards after AI move
 
         currentTurn = 'player';
         updateUI(currentTurn);
+
+        if (playerBoard.allShipsSunk()) {
+            isGameOver = true;
+            alert("💀 You lost!");
+        }
     }, 400);
 });
