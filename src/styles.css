@@ -55,6 +55,11 @@ body {
 
 #turn-indicator {
   font-size: 24px;
-  margin:20px auto;
-  color:aquamarine;
+  margin: 20px auto;
+  color: aquamarine;
+}
+
+.unclickable {
+  pointer-events: none;
+  cursor: not-allowed;
 }
