@@ -5,6 +5,8 @@ export default function (currentTurn) {
     if (currentTurn == null) {
         turnDiv.style.display = 'none'
     }
-
-    turnDiv.textContent = currentTurn == 'player' ? 'Your Turn!!' : `AI's Turn..`;
+    else{
+        turnDiv.style.display = 'block'
+        turnDiv.textContent = currentTurn == 'player' ? 'Your Turn!!' : `AI's Turn..`;
+    }
 }

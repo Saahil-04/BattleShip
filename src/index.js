@@ -40,7 +40,6 @@ function handleManualPlacementStart() {
     document.getElementById('placement-choice').style.display = 'none';
     renderBoards(playerBoard, aiBoard);
     document.getElementById('player-board').classList.remove('unclickable');
-    document.getElementById('enemy-board').classList.remove('unclickable');
     setupManualPlacement();
 }
 
@@ -78,8 +77,8 @@ function finalizeManualPlacement() {
     renderBoards(playerBoard, aiBoard);
     alert('All ships placed manually! Game ready.');
     document.getElementById('toggle-orientation').style.display = 'none';
-
-    updateUI(currentTurn)
+    document.getElementById('enemy-board').classList.remove('unclickable');
+    updateUI(currentTurn);
 }
 
 // Random Placement
@@ -92,6 +91,7 @@ function handleRandomPlacementStart() {
     document.getElementById('player-board').classList.remove('unclickable');
     document.getElementById('enemy-board').classList.remove('unclickable');
     console.log("Game started with random player ships.");
+    updateUI(currentTurn);
 }
 
 // Orientation Toggle
@@ -121,7 +121,7 @@ function handlePlayerAttack(e) {
 
     currentTurn = 'ai';
     updateUI(currentTurn);
-    setTimeout(handleAIAttack, 400);
+    setTimeout(handleAIAttack, Math.random() * 400 + 300);
 }
 
 // AI Attack
