@@ -3,10 +3,10 @@ export default function (currentTurn) {
     const turnDiv = document.getElementById('turn-indicator');
 
     if (currentTurn == null) {
-        turnDiv.style.display = 'none'
+        turnDiv.textContent = 'Place Your Ships...'
     }
-    else{
+    else {
         turnDiv.style.display = 'block'
         turnDiv.textContent = currentTurn == 'player' ? 'Your Turn!!' : `AI's Turn..`;
     }
-}
+}   

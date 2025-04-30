@@ -32,7 +32,9 @@ function setupEventListeners() {
     document.getElementById('manual-placement').addEventListener('click', handleManualPlacementStart);
     document.getElementById('random-placement').addEventListener('click', handleRandomPlacementStart);
     document.getElementById('toggle-orientation').addEventListener('click', toggleOrientation);
-    document.querySelector('#enemy-board').addEventListener('click', handlePlayerAttack);
+    document.getElementById('enemy-board').addEventListener('click', handlePlayerAttack);
+    document.getElementById('place-again').addEventListener('click', handlePlaceAgain);
+    document.getElementById('start-game').addEventListener('click', handleStartGameAfterRandom);
 }
 
 // Manual Placement
@@ -85,13 +87,38 @@ function finalizeManualPlacement() {
 function handleRandomPlacementStart() {
     placeShipsRandomly(playerBoard);
     placeShipsRandomly(aiBoard);
-    gameStarted = true;
-    document.getElementById('placement-choice').style.display = 'none';
     renderBoards(playerBoard, aiBoard);
+
+    document.getElementById('placement-choice').style.display = 'none';
     document.getElementById('player-board').classList.remove('unclickable');
     document.getElementById('enemy-board').classList.remove('unclickable');
-    console.log("Game started with random player ships.");
+
+    document.querySelector('.random-controls').style.display = 'block'
+
+    gameStarted = false; // Important: do NOT start the game yet
+    console.log("Ships placed randomly. Waiting for player to start.");
+}
+
+function handlePlaceAgain() {
+    playerBoard.reset();
+    aiBoard.reset();
+    placeShipsRandomly(playerBoard);
+    placeShipsRandomly(aiBoard);
+    renderBoards(playerBoard, aiBoard);
+    console.log("Ships re-placed randomly.");
+
+}
+
+function handleStartGameAfterRandom() {
+    document.getElementById('enemy-board').addEventListener('click', handlePlayerAttack);
+
+    gameStarted = true;
+    currentTurn = 'player';
     updateUI(currentTurn);
+
+    document.querySelector('.random-controls').style.display = 'none';
+
+    console.log("Game started!");
 }
 
 // Orientation Toggle
@@ -113,8 +140,9 @@ function handlePlayerAttack(e) {
     if (result === 'repeat') return;
 
     renderBoards(playerBoard, aiBoard);
-
+    console.log("Rendered Boards");
     if (aiBoard.allShipsSunk()) {
+        console.log("checking win")
         endGame('🎉 You win!');
         return;
     }
@@ -126,9 +154,14 @@ function handlePlayerAttack(e) {
 
 // AI Attack
 function handleAIAttack() {
+
     if (isGameOver) return;
 
-    ai.randomMoves(playerBoard);
+    let moveResult;
+    do {
+        moveResult = ai.randomMoves(playerBoard);
+    } while (moveResult === 'repeat');
+
     renderBoards(playerBoard, aiBoard);
 
     if (playerBoard.allShipsSunk()) {

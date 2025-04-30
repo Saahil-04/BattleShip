@@ -11,11 +11,11 @@ export default function GameBoard() {
         for (let i = 0; i < length; i++) {
             const xi = isVertical ? x : x + i;
             const yi = isVertical ? y + i : y;
-        
+
             if (xi >= size || yi >= size || board[yi][xi] !== null) {
                 return false;
             }
-        
+
             positions.push([yi, xi]);
         }
         positions.forEach(([yi, xi]) => {
@@ -42,16 +42,25 @@ export default function GameBoard() {
             return 'miss'
         }
     }
+    const reset = () => {
+        board.forEach((row, i) => {
+            row.forEach((_, j) => {
+                board[i][j] = null;
+            });
+        });
+    }
 
     const allShipsSunk = () => {
         return ships.every(({ ship }) => ship.isSunk());
     }
+
 
     return {
         board,
         ships,
         placeShip,
         recieveAttacks,
+        reset,
         allShipsSunk,
     };
 

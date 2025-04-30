@@ -14,6 +14,3 @@ export function placeShipsRandomly(board) {
     }
 }
 
-export function setupManualPlacement(){
-    
-}
